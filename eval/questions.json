@@ -1,0 +1,12 @@
+[
+  {
+    "question": "REPLACE ME: a question whose answer is in one of your documents",
+    "expected_source": "REPLACE ME: the filename that contains the answer",
+    "expected_keywords": ["REPLACE ME: 1-3 words that should appear in a correct answer"]
+  },
+  {
+    "question": "REPLACE ME: a second test question",
+    "expected_source": "REPLACE ME",
+    "expected_keywords": ["REPLACE ME"]
+  }
+]
