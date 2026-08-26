@@ -1,42 +1,42 @@
 [
   {
-    "question": "Who directed The Elder Scrolls V: Skyrim and which studio developed it?",
-    "expected_source": "skyrim_overview.txt",
-    "expected_keywords": ["Todd Howard", "Bethesda"]
+    "question": "In 'Attention Is All You Need,' what does multi-head attention allow the model to do that a single attention head can't?",
+    "expected_source": "vaswani_2017_attention_is_all_you_need.pdf",
+    "expected_keywords": ["different representation subspaces"]
   },
   {
-    "question": "What are the three official expansions released for the original Skyrim?",
-    "expected_source": "skyrim_overview.txt",
-    "expected_keywords": ["Dawnguard", "Hearthfire"]
+    "question": "What are the authors' institutional affiliations on the paper that introduces Retrieval-Augmented Generation (RAG)?",
+    "expected_source": "lewis_2020_retrieval_augmented_generation.pdf",
+    "expected_keywords": ["Facebook AI Research"]
   },
   {
-    "question": "Who is Alduin in Skyrim's lore, and what is he also known as?",
-    "expected_source": "skyrim_lore_history.txt",
-    "expected_keywords": ["World-Eater"]
+    "question": "According to the RAG paper's diversity ablation, which variant generates more diverse text: RAG-Sequence or RAG-Token?",
+    "expected_source": "lewis_2020_retrieval_augmented_generation.pdf",
+    "expected_keywords": ["RAG-Sequence"]
   },
   {
-    "question": "What ancient elven civilization vanished long before Skyrim's events, leaving behind underground ruins full of steam-powered constructs?",
-    "expected_source": "skyrim_lore_history.txt",
-    "expected_keywords": ["Dwemer"]
+    "question": "Per the Sentence-BERT paper, roughly how long would it take a V100 GPU to find the most similar pair among 10,000 sentences using plain BERT cross-encoding?",
+    "expected_source": "reimers_2019_sentence_bert.pdf",
+    "expected_keywords": ["65 hours"]
   },
   {
-    "question": "Who leads the Stormcloaks, and how did he become High King Torygg's rival?",
-    "expected_source": "skyrim_factions_characters.txt",
-    "expected_keywords": ["Ulfric"]
+    "question": "Besides Facebook AI, which universities co-authored the Dense Passage Retrieval (DPR) paper?",
+    "expected_source": "karpukhin_2020_dense_passage_retrieval.pdf",
+    "expected_keywords": ["University of Washington", "Princeton"]
   },
   {
-    "question": "Which elderly dragon lives atop the Throat of the World and mentors the Dragonborn in the Way of the Voice?",
-    "expected_source": "skyrim_factions_characters.txt",
-    "expected_keywords": ["Paarthurnax"]
+    "question": "The Vision Transformer paper says it follows a prior architecture 'as closely as possible' -- whose architecture, and from what year?",
+    "expected_source": "dosovitskiy_2020_vision_transformer.pdf",
+    "expected_keywords": ["Vaswani", "2017"]
   },
   {
-    "question": "What is the Thu'um, and how does the Dragonborn learn new words of power for it?",
-    "expected_source": "skyrim_gameplay_mechanics.txt",
-    "expected_keywords": ["Word Walls"]
+    "question": "What two things does chain-of-thought (CoT) prompting remove that ReAct prompting keeps?",
+    "expected_source": "yao_2022_react.pdf",
+    "expected_keywords": ["actions", "observations"]
   },
   {
-    "question": "What three crafting skills let players forge gear, brew potions, and imbue magical effects onto equipment?",
-    "expected_source": "skyrim_gameplay_mechanics.txt",
-    "expected_keywords": ["Smithing", "Alchemy", "Enchanting"]
+    "question": "On the WebShop benchmark, what absolute improvement does ReAct show over the previous best success rate?",
+    "expected_source": "yao_2022_react.pdf",
+    "expected_keywords": ["10%"]
   }
 ]
