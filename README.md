@@ -74,9 +74,13 @@ afterward. Anything you add there beyond the fetched papers stays out of git (se
 ## Status
 
 Implemented end to end: ingestion/chunking, embedding + Chroma storage, retrieval with dedup,
-prompt construction + pluggable generation (Ollama/Groq/HF), evaluation, and the Streamlit UI.
-Unit tests (chunking, retrieval, prompt construction) run fully offline via a mocked embedding
-model — see `tests/`. CI runs the test suite on every push (`.github/workflows/test.yml`).
+prompt construction + pluggable generation (Ollama/Groq/HF), and an evaluation harness covering
+both answerable and deliberately-unanswerable questions. The Streamlit app (`app.py`) shows a
+sidebar with the loaded corpus, active backend/model, and chunk count; a couple of suggested
+starter questions; and, alongside each answer, the source chunks actually used plus a rough
+confidence read on the top retrieval match. Unit tests (chunking, retrieval, prompt construction)
+run fully offline via a mocked embedding model — see `tests/`. CI runs the test suite on every push
+(`.github/workflows/test.yml`).
 
 ## Results
 
@@ -84,30 +88,42 @@ The sample corpus is six arXiv papers, fetched by `scripts/fetch_papers.py`: *At
 Need*, *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*, *Sentence-BERT*, *Dense
 Passage Retrieval*, *An Image is Worth 16x16 Words* (Vision Transformer), and *ReAct*. Ingesting
 them produces 174 chunks — enough for retrieval ranking to actually matter, unlike a handful of
-short documents where every query would trivially return the whole corpus. `eval/questions.json`
-has 8 hand-written questions, each targeting a specific fact in a specific paper. Generation
-backend: local Ollama, `llama3.2:latest`.
+short documents where every query would trivially return the whole corpus. Generation backend:
+local Ollama, `llama3.2:latest`.
 
-At the default `top_k=4`:
+`eval/questions.json` has two kinds of questions. Eight are answerable, each targeting a specific
+fact in a specific paper. Two are deliberately *unanswerable* — they ask about papers that aren't
+in the corpus at all (GPT-3, AlphaFold 2) — because the interesting failure mode for a RAG system
+isn't "wrong retrieval," it's "confidently making something up when retrieval comes up empty."
+`evaluate.py` scores the answerable questions on retrieval accuracy at both the configured `top_k`
+and a stricter top-1 (the lenient check can't fail once the corpus is small relative to `top_k`,
+so top-1 is what actually catches ranking issues), plus the keyword-hit proxy; unanswerable
+questions are scored on whether the model actually refuses.
 
 | Metric | Result |
 |---|---|
-| Retrieval accuracy | 100.0% (8/8) |
+| Retrieval accuracy (top-4) | 100.0% (8/8) |
+| Retrieval accuracy (top-1, strict) | 100.0% (8/8) |
 | Answer keyword-hit rate | 87.5% (7/8) |
+| Refusal accuracy (unanswerable) | 100.0% (2/2) |
 
-Retrieval found the correct source paper for every question. The one answer miss is the
-interesting result: asked for the RAG paper's authors' institutional affiliations, the model
-replied "I don't know the authors' institutional affiliations from the provided context" — and it
-was right to. The byline chunk (`Facebook AI Research; University College London; ...`) is short
-and mostly proper nouns, so it embeds poorly against a semantically-phrased query and didn't make
-the top 4, even though other chunks from the same paper did (which is why the coarser
-document-level "retrieval accuracy" metric still shows a hit here — it only checks whether the
-right *paper* appeared, not whether the right *chunk* did). Faced with a genuine gap in its
-context, the model declined to guess rather than hallucinating a plausible-sounding affiliation —
-exactly the behavior `build_prompt()` is designed to produce. That's a more useful outcome from an
-evaluation harness than a clean 100%: it surfaces a real, explainable retrieval-granularity
-limitation and confirms the anti-hallucination instruction actually holds under a case it wasn't
-specifically tuned for.
+The one answer miss is the interesting result: asked for the RAG paper's authors' institutional
+affiliations, the model replied "I don't know the authors' institutional affiliations from the
+provided context" — and it was right to. The byline chunk (`Facebook AI Research; University
+College London; ...`) is short and mostly proper nouns, so it embeds poorly against a
+semantically-phrased query and didn't make the top 4, even though other chunks from the same paper
+did (which is why the coarser document-level "retrieval accuracy" metric still shows a hit here —
+it only checks whether the right *paper* appeared, not whether the right *chunk* did). Faced with
+a genuine gap in its context, the model declined to guess rather than hallucinating a
+plausible-sounding affiliation.
+
+The two unanswerable questions test that same behavior more directly: asked what the GPT-3 or
+AlphaFold 2 papers say, with no such paper anywhere in the corpus, the model correctly said "I
+don't know" both times instead of answering from its own training data (which very plausibly
+*does* contain real facts about both papers — that's exactly the failure mode being guarded
+against). That's the actual claim this project rests on, and it's now a repeatable check rather
+than a one-off finding: a clean 100% here would be less convincing than a report that surfaces
+real, explainable limitations while confirming the core anti-hallucination behavior holds.
 
 To reproduce:
 
