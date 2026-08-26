@@ -65,10 +65,21 @@ streamlit run app.py          # launch the chat UI
 
 ## Status
 
-This is a scaffold — folder structure, interfaces, and a starter README are in place; the actual
-implementation (chunking logic, embedding calls, retrieval, generation, evaluation scoring, and
-the Streamlit UI) still needs to be built out. See `PROMPT_FOR_CLAUDE_CODE.md` for a ready-to-use
-prompt that has Claude Code implement it end to end.
+Implemented end to end: ingestion/chunking, embedding + Chroma storage, retrieval with dedup,
+prompt construction + pluggable generation (Ollama/Groq/HF), evaluation, and the Streamlit UI.
+Unit tests (chunking, retrieval, prompt construction) run fully offline via a mocked embedding
+model — see `tests/`. CI runs the test suite on every push (`.github/workflows/test.yml`).
+
+`data/documents/` is currently empty — add your own PDFs/text files, then run:
+
+```bash
+python -m src.ingest
+python -m scripts.run_eval
+```
+
+to populate the vector store and see real evaluation numbers. Once real documents and matching
+`eval/questions.json` entries are in place, this section will be updated with a "Results" section
+showing actual retrieval accuracy and answer-quality numbers from a real run.
 
 ## Deployment
 
