@@ -1,0 +1,16 @@
+# Disables Streamlit's local-source file watcher.
+#
+# With it on, Streamlit walks every loaded module (to figure out what to watch for
+# hot-reload) and that includes transformers, pulled in transitively by
+# sentence-transformers. Touching transformers' vision-model submodules triggers a
+# torchvision import as a side effect of its lazy-loading __getattr__, and torchvision
+# isn't installed here (nothing in this project does image processing) -- so every
+# `streamlit run` floods the terminal with caught-but-noisy ModuleNotFoundError
+# tracebacks. They're harmless (Streamlit catches them; the app works fine either way),
+# but disabling the watcher is the clean fix rather than installing an unused
+# dependency just to quiet logging.
+#
+# Tradeoff: editing app.py while `streamlit run` is active won't auto-refresh the
+# browser anymore -- just rerun `streamlit run app.py` (or press "r" in the browser).
+[server]
+fileWatcherType = "none"
