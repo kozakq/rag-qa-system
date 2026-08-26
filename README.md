@@ -3,21 +3,20 @@
 A small, fully local-friendly Retrieval-Augmented Generation (RAG) system that answers questions
 over a folder of your own documents (resume, papers, notes, whatever you point it at).
 
-Built to demonstrate, with real public code, the same skills used in a RAG system built during
-an internship: document ingestion, chunking, embedding generation, vector search, prompt
-construction, generation, and — importantly — retrieval evaluation.
+Built to demonstrate the skills used in a RAG system built for research and development in an engineering environment: document ingestion, chunking, embedding generation, vector search, prompt
+construction, generation, and retrieval evaluation.
 
 ## Why this project exists
 
 Most of the AI/ML work in my resume (RAG, LLMs, computer vision, agentic workflows) was built at
 an internship in a private company repo. This project is a small, from-scratch, public rebuild of
-the RAG half of that work, so the skill claim has visible code behind it.
+the RAG half of that work, so the skill claim has actual work behind it. The original work was built for employee onboarding, showcasing internal medical device documentation, so hallucinations were not an option and RAG was chosen as a useful project for this purpose.
 
-The sample corpus is deliberately self-referential: it's the six papers that this project's own
+The sample idea is deliberately self-referential: it's the six papers that this project's own
 pipeline is built from and adjacent to (transformers, RAG itself, sentence embeddings, dense
 retrieval, vision transformers, and agentic prompting). You can ask this RAG system to explain
-retrieval-augmented generation and watch it correctly retrieve and cite the RAG paper it
-ingested — a more direct proof of understanding than a generic demo corpus would be.
+retrieval-augmented generation and it will correctly retrieve and cite the RAG paper it
+ingested, which I think is a more direct proof of understanding than a standard demo idea would be.
 
 ## Architecture
 
@@ -84,11 +83,10 @@ run fully offline via a mocked embedding model — see `tests/`. CI runs the tes
 
 ## Results
 
-The sample corpus is six arXiv papers, fetched by `scripts/fetch_papers.py`: *Attention Is All You
+The sample idea is six arXiv papers, fetched by `scripts/fetch_papers.py`: *Attention Is All You
 Need*, *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*, *Sentence-BERT*, *Dense
 Passage Retrieval*, *An Image is Worth 16x16 Words* (Vision Transformer), and *ReAct*. Ingesting
-them produces 174 chunks — enough for retrieval ranking to actually matter, unlike a handful of
-short documents where every query would trivially return the whole corpus. Generation backend:
+them produces 174 chunks — enough for retrieval ranking to actually matter. Generation backend:
 local Ollama, `llama3.2:latest`.
 
 `eval/questions.json` has two kinds of questions. Eight are answerable, each targeting a specific
@@ -96,7 +94,7 @@ fact in a specific paper. Two are deliberately *unanswerable* — they ask about
 in the corpus at all (GPT-3, AlphaFold 2) — because the interesting failure mode for a RAG system
 isn't "wrong retrieval," it's "confidently making something up when retrieval comes up empty."
 `evaluate.py` scores the answerable questions on retrieval accuracy at both the configured `top_k`
-and a stricter top-1 (the lenient check can't fail once the corpus is small relative to `top_k`,
+and a stricter top-1 (the lenient check can't fail once it is small relative to `top_k`,
 so top-1 is what actually catches ranking issues), plus the keyword-hit proxy; unanswerable
 questions are scored on whether the model actually refuses.
 
@@ -115,13 +113,13 @@ semantically-phrased query and didn't make the top 4, even though other chunks f
 did (which is why the coarser document-level "retrieval accuracy" metric still shows a hit here —
 it only checks whether the right *paper* appeared, not whether the right *chunk* did). Faced with
 a genuine gap in its context, the model declined to guess rather than hallucinating a
-plausible-sounding affiliation.
+decent-sounding idea.
 
 The two unanswerable questions test that same behavior more directly: asked what the GPT-3 or
 AlphaFold 2 papers say, with no such paper anywhere in the corpus, the model correctly said "I
 don't know" both times instead of answering from its own training data (which very plausibly
-*does* contain real facts about both papers — that's exactly the failure mode being guarded
-against). That's the actual claim this project rests on, and it's now a repeatable check rather
+*does* contain real facts about both papers — that's the failure mode being guarded
+against). That's the whole idea this project rests on, and it's now an actual check rather
 than a one-off finding: a clean 100% here would be less convincing than a report that surfaces
 real, explainable limitations while confirming the core anti-hallucination behavior holds.
 
@@ -132,8 +130,3 @@ python -m scripts.fetch_papers   # download the sample papers from arXiv
 python -m src.ingest             # chunk + embed + store
 python -m scripts.run_eval       # top_k=4 (default) report
 ```
-
-## Deployment
-
-Once working locally, deploy the Streamlit app for free on Streamlit Community Cloud or Hugging
-Face Spaces so the README can link to a live demo, not just code.

@@ -84,11 +84,11 @@ def render_turn(turn: dict) -> None:
 
 st.set_page_config(page_title="RAG Paper Explorer", page_icon="📚")
 
-st.title("📚 RAG Paper Explorer")
+st.title("RAG Paper Explorer")
 st.caption(
-    "A RAG pipeline I built end-to-end -- chunking, embeddings, vector search, generation, "
-    "and an actual evaluation harness -- pointed at the papers its own design is built from. "
-    "Ask it how RAG works and it'll answer from the RAG paper it ingested, not from memory."
+    "A RAG pipeline I built end-to-end for chunking, embeddings, vector search, generation, "
+    "and an actual evaluation harness that is pointed at the papers its own design is built from. "
+    "Ask it how RAG works and it'll answer from the RAG paper it ingested, not from memory!"
 )
 
 with st.sidebar:
