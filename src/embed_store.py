@@ -59,6 +59,11 @@ def add_chunks(chunks: list[str], metadatas: list[dict]) -> None:
     )
 
 
+def count() -> int:
+    """Return how many chunks are currently stored in the collection."""
+    return _get_collection().count()
+
+
 def query(question: str, top_k: int = 4) -> list[dict]:
     """Return top_k chunks as [{"text": str, "source": str, "score": float}, ...]."""
     model = _get_model()

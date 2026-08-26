@@ -1,42 +1,58 @@
 [
   {
     "question": "In 'Attention Is All You Need,' what does multi-head attention allow the model to do that a single attention head can't?",
+    "answerable": true,
     "expected_source": "vaswani_2017_attention_is_all_you_need.pdf",
     "expected_keywords": ["different representation subspaces"]
   },
   {
     "question": "What are the authors' institutional affiliations on the paper that introduces Retrieval-Augmented Generation (RAG)?",
+    "answerable": true,
     "expected_source": "lewis_2020_retrieval_augmented_generation.pdf",
     "expected_keywords": ["Facebook AI Research"]
   },
   {
     "question": "According to the RAG paper's diversity ablation, which variant generates more diverse text: RAG-Sequence or RAG-Token?",
+    "answerable": true,
     "expected_source": "lewis_2020_retrieval_augmented_generation.pdf",
     "expected_keywords": ["RAG-Sequence"]
   },
   {
     "question": "Per the Sentence-BERT paper, roughly how long would it take a V100 GPU to find the most similar pair among 10,000 sentences using plain BERT cross-encoding?",
+    "answerable": true,
     "expected_source": "reimers_2019_sentence_bert.pdf",
     "expected_keywords": ["65 hours"]
   },
   {
     "question": "Besides Facebook AI, which universities co-authored the Dense Passage Retrieval (DPR) paper?",
+    "answerable": true,
     "expected_source": "karpukhin_2020_dense_passage_retrieval.pdf",
     "expected_keywords": ["University of Washington", "Princeton"]
   },
   {
     "question": "The Vision Transformer paper says it follows a prior architecture 'as closely as possible' -- whose architecture, and from what year?",
+    "answerable": true,
     "expected_source": "dosovitskiy_2020_vision_transformer.pdf",
     "expected_keywords": ["Vaswani", "2017"]
   },
   {
     "question": "What two things does chain-of-thought (CoT) prompting remove that ReAct prompting keeps?",
+    "answerable": true,
     "expected_source": "yao_2022_react.pdf",
     "expected_keywords": ["actions", "observations"]
   },
   {
     "question": "On the WebShop benchmark, what absolute improvement does ReAct show over the previous best success rate?",
+    "answerable": true,
     "expected_source": "yao_2022_react.pdf",
     "expected_keywords": ["10%"]
+  },
+  {
+    "question": "What does the GPT-3 paper say about few-shot learning?",
+    "answerable": false
+  },
+  {
+    "question": "What is the key contribution of the AlphaFold 2 paper for protein structure prediction?",
+    "answerable": false
   }
 ]

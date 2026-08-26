@@ -93,3 +93,14 @@ def test_retrieve_dedupes_and_formats_context(fake_embed_store, monkeypatch):
     for chunk in results:
         assert f"[{chunk['source']}, chunk {chunk['chunk_index']}]" in context
         assert chunk["text"] in context
+
+
+def test_count_reflects_added_chunks(fake_embed_store):
+    assert fake_embed_store.count() == 0
+
+    fake_embed_store.add_chunks(["one", "two"], [
+        {"source": "doc_a.txt", "chunk_index": 0},
+        {"source": "doc_a.txt", "chunk_index": 1},
+    ])
+
+    assert fake_embed_store.count() == 2
