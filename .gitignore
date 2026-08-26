@@ -6,4 +6,10 @@ __pycache__/
 chroma_db/
 data/documents/*
 !data/documents/.gitkeep
+# Sample corpus, tracked on purpose so `python -m src.ingest` works out of the box.
+# Any other files you drop into data/documents/ (e.g. personal PDFs) stay ignored.
+!data/documents/skyrim_overview.txt
+!data/documents/skyrim_lore_history.txt
+!data/documents/skyrim_factions_characters.txt
+!data/documents/skyrim_gameplay_mechanics.txt
 .streamlit/secrets.toml

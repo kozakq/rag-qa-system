@@ -1,12 +1,42 @@
 [
   {
-    "question": "REPLACE ME: a question whose answer is in one of your documents",
-    "expected_source": "REPLACE ME: the filename that contains the answer",
-    "expected_keywords": ["REPLACE ME: 1-3 words that should appear in a correct answer"]
+    "question": "Who directed The Elder Scrolls V: Skyrim and which studio developed it?",
+    "expected_source": "skyrim_overview.txt",
+    "expected_keywords": ["Todd Howard", "Bethesda"]
   },
   {
-    "question": "REPLACE ME: a second test question",
-    "expected_source": "REPLACE ME",
-    "expected_keywords": ["REPLACE ME"]
+    "question": "What are the three official expansions released for the original Skyrim?",
+    "expected_source": "skyrim_overview.txt",
+    "expected_keywords": ["Dawnguard", "Hearthfire"]
+  },
+  {
+    "question": "Who is Alduin in Skyrim's lore, and what is he also known as?",
+    "expected_source": "skyrim_lore_history.txt",
+    "expected_keywords": ["World-Eater"]
+  },
+  {
+    "question": "What ancient elven civilization vanished long before Skyrim's events, leaving behind underground ruins full of steam-powered constructs?",
+    "expected_source": "skyrim_lore_history.txt",
+    "expected_keywords": ["Dwemer"]
+  },
+  {
+    "question": "Who leads the Stormcloaks, and how did he become High King Torygg's rival?",
+    "expected_source": "skyrim_factions_characters.txt",
+    "expected_keywords": ["Ulfric"]
+  },
+  {
+    "question": "Which elderly dragon lives atop the Throat of the World and mentors the Dragonborn in the Way of the Voice?",
+    "expected_source": "skyrim_factions_characters.txt",
+    "expected_keywords": ["Paarthurnax"]
+  },
+  {
+    "question": "What is the Thu'um, and how does the Dragonborn learn new words of power for it?",
+    "expected_source": "skyrim_gameplay_mechanics.txt",
+    "expected_keywords": ["Word Walls"]
+  },
+  {
+    "question": "What three crafting skills let players forge gear, brew potions, and imbue magical effects onto equipment?",
+    "expected_source": "skyrim_gameplay_mechanics.txt",
+    "expected_keywords": ["Smithing", "Alchemy", "Enchanting"]
   }
 ]

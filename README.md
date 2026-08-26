@@ -56,7 +56,8 @@ API; this one shows you can reason about whether the system is actually working.
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# put a few PDFs or .txt files in data/documents/
+# data/documents/ already ships with a small sample corpus (Skyrim lore/mechanics articles).
+# Swap in your own PDFs/.txt files any time — just re-run ingest afterward.
 
 python -m src.ingest          # chunk + embed + store
 python -m scripts.run_eval    # check retrieval quality against eval/questions.json
@@ -70,16 +71,46 @@ prompt construction + pluggable generation (Ollama/Groq/HF), evaluation, and the
 Unit tests (chunking, retrieval, prompt construction) run fully offline via a mocked embedding
 model — see `tests/`. CI runs the test suite on every push (`.github/workflows/test.yml`).
 
-`data/documents/` is currently empty — add your own PDFs/text files, then run:
+## Results
+
+The sample corpus in `data/documents/` is four short articles about *The Elder Scrolls V: Skyrim*
+(overview, lore/history, factions & characters, gameplay mechanics), with 8 hand-written questions
+in `eval/questions.json` targeting specific facts from specific documents. Generation backend:
+local Ollama, `llama3.2:latest`.
+
+At the default `top_k=4`:
+
+| Metric | Result |
+|---|---|
+| Retrieval accuracy | 100.0% (8/8) |
+| Answer keyword-hit rate | 100.0% (8/8) |
+
+That 100% is a little too easy to be meaningful, though: this corpus only has 4 chunks total (each
+document is short enough to fit in a single ~400-word chunk), so at `top_k=4` every query trivially
+retrieves *every* chunk regardless of ranking quality — the metric can't fail. Re-running with a
+stricter `python -c "from src.evaluate import evaluate; evaluate(top_k=1)"` — keeping only the
+single best-ranked chunk — gives a real signal:
+
+| Metric (top_k=1) | Result |
+|---|---|
+| Retrieval accuracy | 62.5% (5/8) |
+| Answer keyword-hit rate | 62.5% (5/8) |
+
+The three misses at `top_k=1` (questions about the Dwemer, Paarthurnax, and the Thu'um/Word Walls)
+were all pulled toward `skyrim_lore_history.txt` instead of their actual source — because these
+four documents are topically close (all Skyrim lore/mechanics) and each is embedded as one single
+whole-document vector, fine-grained distinctions get blurred together at the embedding level. With
+a larger or more granular corpus (more chunks per document, more separation between topics) this
+would sharpen up; on a 4-chunk corpus it's expected. This is the actual point of having an
+evaluation harness: it surfaces a real, explainable limitation instead of hiding behind a vanity
+metric.
+
+To reproduce:
 
 ```bash
-python -m src.ingest
-python -m scripts.run_eval
+python -m src.ingest          # chunk + embed + store the sample Skyrim documents
+python -m scripts.run_eval    # top_k=4 (default) report
 ```
-
-to populate the vector store and see real evaluation numbers. Once real documents and matching
-`eval/questions.json` entries are in place, this section will be updated with a "Results" section
-showing actual retrieval accuracy and answer-quality numbers from a real run.
 
 ## Deployment
 
